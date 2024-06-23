@@ -1,0 +1,17 @@
+Flags Used are:
+    -n for number of lines (default = 10)
+    -file for file name (default: reads from stdin)
+
+For head:
+    Tried using command line arguments but it didn't have option for multiLine stdin.
+    THat's why i used bufio scanner for scanning stdin and saved in a string array, to paste them all at the end.
+    Even tho files could paste directly without having to be saved prior in an array, i tried to make code cleaner by standardizing.
+
+For tail:
+    Same as head, except saving here was needed for files as well.
+
+
+I took a lot of time bec initially 
+    - I made filename as a flag, which after reading documentation of linux commands isn't correct / doesn't implement the required cmd commands
+    - Checked go examples in detail and updated the head and tail implementations
+    - Not knowing that we can track number of flags also made me ulter code later
