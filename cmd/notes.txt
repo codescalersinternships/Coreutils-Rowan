@@ -9,6 +9,7 @@ For head:
 
 For tail:
     Same as head, except saving here was needed for files as well.
+    //NOTE HERE: stdin will have to terminate in ctrl D
 
 
 I took a lot of time bec initially 

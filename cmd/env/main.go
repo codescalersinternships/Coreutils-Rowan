@@ -1,9 +1,10 @@
 package main
- 
+
 import (
-    "fmt"
+	"fmt"
 	"os"
 )
+
 func main() {
 	for _, env := range os.Environ() {
 		fmt.Println(env)

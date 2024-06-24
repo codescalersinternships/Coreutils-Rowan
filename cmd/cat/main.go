@@ -1,24 +1,20 @@
 package main
- 
+
 import (
-    "fmt"
 	"bufio"
-	"os"
-	"io"
 	"flag"
+	"fmt"
+	"io"
+	"os"
 )
-func check(e error) {
-    if e != nil {
-        panic(e)
-    }
-}
+
 func main() {
 	var lines int
-	flag.IntVar( &lines,"n", -1, "custom number of lines to print")
+	flag.IntVar(&lines, "n", -1, "custom number of lines to print")
 	flag.Parse()
 
 	var fileName string
-	var input io.Reader 
+	var input io.Reader
 
 	if len(os.Args) == 1 {
 		fmt.Println("No file passed")
@@ -30,8 +26,11 @@ func main() {
 	}
 
 	file, err := os.Open(fileName)
-	check(err)
-	
+	if err != nil {
+		fmt.Println("Cannot open file!")
+		os.Exit(1)
+	}
+
 	input = file
 
 	scanner := bufio.NewScanner(input)
@@ -47,7 +46,10 @@ func main() {
 			fmt.Println(scanner.Text())
 		}
 	}
-	
-	check(scanner.Err())
-	
+
+	if scanner.Err() != nil {
+		fmt.Println("Scanner is having some error!")
+		os.Exit(1)
+	}
+
 }

@@ -1,60 +1,60 @@
 package main
- 
+
 import (
-    "fmt"
-	"flag"
 	"bufio"
-	"os"
+	"flag"
+	"fmt"
 	"io"
+	"os"
 )
-func check(e error) {
-    if e != nil {
-        panic(e)
-    }
-}
+
 func main() {
- 
-    var lines int
-	flag.IntVar( &lines,"n", 10, "custom number of lines to print")
+
+	var lines int
+	flag.IntVar(&lines, "n", 10, "custom number of lines to print")
 	flag.Parse()
 
-	var file_name string
-	//NOTE HERE: stdin will have to terminate in ctrl D
-
+	var fileName string
 
 	var input io.Reader
-	var std_lines []string
+	var stdLines []string
 	var idx int
 
 	if flag.NFlag() == 0 {
-		file_name = os.Args[1]
+		fileName = os.Args[1]
 	} else if len(os.Args) == 4 {
-		file_name = os.Args[3]
+		fileName = os.Args[3]
 	}
-	
-	if file_name == "" { 
+
+	if fileName == "" {
 		input = os.Stdin
-		
+
 	} else {
-		file, err := os.Open(file_name)
-		check(err)
+		file, err := os.Open(fileName)
+		if err != nil {
+			fmt.Println("Cannot open file!")
+			os.Exit(1)
+		}
 		input = file
 	}
 
 	scanner := bufio.NewScanner(input)
 	for scanner.Scan() {
-		std_lines = append(std_lines, scanner.Text())
+		stdLines = append(stdLines, scanner.Text())
 	}
-	check(scanner.Err())
+	if scanner.Err() != nil {
+		fmt.Println("Scanner is having some error!")
+		os.Exit(1)
+	}
 
-	if len(std_lines) < lines {
+	if len(stdLines) < lines {
 		idx = 0
 	} else {
-		idx = len(std_lines) - lines
+		idx = len(stdLines) - lines
 	}
 
-	for _, line := range std_lines[idx:] {
+	for _, line := range stdLines[idx:] {
 		fmt.Println(line)
 	}
-	
+
 }

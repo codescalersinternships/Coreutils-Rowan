@@ -1,22 +1,19 @@
 package main
- 
+
 import (
-    "fmt"
-	"os"
 	"flag"
+	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 )
-func check(e error) {
-    if e != nil {
-        panic(e)
-    }
-}
 
-func go_deep(dir_path string, depth int, final int) {
-	entries, err := os.ReadDir(dir_path)
-	check(err)
-	
+func goDeep(dirPath string, depth int, final int) {
+	entries, err := os.ReadDir(dirPath)
+	if err != nil {
+		fmt.Println("Cannot read path!")
+		os.Exit(1)
+	}
 
 	for _, entry := range entries {
 		if depth != 0 {
@@ -26,21 +23,21 @@ func go_deep(dir_path string, depth int, final int) {
 		}
 		fmt.Println(entry.Name())
 		if entry.IsDir() && depth != final {
-			go_deep(filepath.Join(dir_path, entry.Name()), depth + 1, final)
+			goDeep(filepath.Join(dirPath, entry.Name()), depth+1, final)
 		}
 		fmt.Println()
 	}
 }
 func main() {
 	var depth int
-	flag.IntVar( &depth,"L", 1, "depth")
+	flag.IntVar(&depth, "L", 1, "depth")
 	flag.Parse()
 
-	var root_path string
+	var rootPath string
 	if len(os.Args) == 2 {
-		root_path = os.Args[1]
+		rootPath = os.Args[1]
 	} else {
-		root_path = os.Args[3]
+		rootPath = os.Args[3]
 	}
-	go_deep(root_path, 0, depth - 1)
+	goDeep(rootPath, 0, depth-1)
 }

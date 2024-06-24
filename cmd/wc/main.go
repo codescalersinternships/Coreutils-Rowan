@@ -1,53 +1,49 @@
 package main
- 
+
 import (
-    "fmt"
-	"flag"
-	"os"
 	"bufio"
+	"flag"
+	"fmt"
 	"io"
+	"os"
 	"strings"
 	"unicode/utf8"
 )
-func check(e error) {
-    if e != nil {
-        panic(e)
-    }
-}
-func main() {
- 
 
-	lines_ptr := flag.Bool("l", false, "number of lines bool")
-	words_ptr := flag.Bool("w", false, "number of words bool")
-	chars_ptr := flag.Bool("c", false, "number of characters bool")
+func main() {
+	lPtr := flag.Bool("l", false, "number of lines bool")
+	wPtr := flag.Bool("w", false, "number of words bool")
+	cPtr := flag.Bool("c", false, "number of characters bool")
 
 	flag.Parse()
 
-
-	var input io.Reader 
-	var file_name string
+	var input io.Reader
+	var fileName string
 	var l int
 	var w int
 	var c int
 
 	idx := flag.NFlag()
 
-	if len(os.Args) == idx + 1 {
+	if len(os.Args) == idx+1 {
 		fmt.Println("No file passed")
 		os.Exit(1)
 	}
 
-	file_name = os.Args[idx + 1]
+	fileName = os.Args[idx+1]
 
-	file, err := os.Open(file_name)
-	check(err)
+	file, err := os.Open(fileName)
+	if err != nil {
+		fmt.Println("Cannot open file!")
+		os.Exit(1)
+	}
 
 	input = file
 
 	scanner := bufio.NewScanner(input)
 	for scanner.Scan() {
 		line := scanner.Text()
-		l ++
+		l++
 
 		words := strings.Fields(scanner.Text())
 		w += len(words)
@@ -55,16 +51,19 @@ func main() {
 		c += utf8.RuneCountInString(line)
 
 	}
-	check(scanner.Err())
-	if *lines_ptr {
-		fmt.Printf("%d ",l)
+	if scanner.Err() != nil {
+		fmt.Println("Scanner is facing some error!")
+		os.Exit(1)
 	}
-	if *words_ptr {
-		fmt.Printf("%d ",w)
+	if *lPtr {
+		fmt.Printf("%d ", l)
 	}
-	if *chars_ptr {
-		fmt.Printf("%d ",c)
+	if *wPtr {
+		fmt.Printf("%d ", w)
 	}
-	fmt.Println(file_name)
-	
+	if *cPtr {
+		fmt.Printf("%d ", c)
+	}
+	fmt.Println(fileName)
+
 }
