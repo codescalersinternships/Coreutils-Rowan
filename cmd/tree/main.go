@@ -44,6 +44,3 @@ func main() {
 	}
 	go_deep(root_path, 0, depth - 1)
 }
-
-// to test
-//go run coreutils/tree/main.go -L 2 coreutils

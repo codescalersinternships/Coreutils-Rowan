@@ -17,19 +17,19 @@ func main() {
 	flag.IntVar( &lines,"n", -1, "custom number of lines to print")
 	flag.Parse()
 
-	var file_name string
+	var fileName string
 	var input io.Reader 
 
 	if len(os.Args) == 1 {
 		fmt.Println("No file passed")
 		os.Exit(1)
 	} else if len(os.Args) == 2 {
-		file_name = os.Args[1]
+		fileName = os.Args[1]
 	} else if len(os.Args) == 4 {
-		file_name = os.Args[3]
+		fileName = os.Args[3]
 	}
 
-	file, err := os.Open(file_name)
+	file, err := os.Open(fileName)
 	check(err)
 	
 	input = file
