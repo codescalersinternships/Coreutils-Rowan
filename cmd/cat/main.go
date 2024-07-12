@@ -16,13 +16,11 @@ func main() {
 	var fileName string
 	var input io.Reader
 
-	if len(os.Args) == 1 {
-		fmt.Println("No file passed")
-		os.Exit(1)
-	} else if len(os.Args) == 2 {
+	if flag.NFlag() == 0 {
 		fileName = os.Args[1]
-	} else if len(os.Args) == 4 {
-		fileName = os.Args[3]
+	} else {
+		idx := len(os.Args) - flag.NFlag()
+		fileName = os.Args[idx]
 	}
 
 	file, err := os.Open(fileName)

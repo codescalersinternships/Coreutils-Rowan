@@ -16,7 +16,6 @@ func main() {
 
 	var fileName string
 	var input io.Reader
-	var stdLines []string
 
 	if flag.NFlag() == 0 {
 		fileName = os.Args[1]
@@ -40,10 +39,7 @@ func main() {
 		if !scanner.Scan() {
 			break
 		}
-		stdLines = append(stdLines, scanner.Text())
-	}
-	for _, line := range stdLines {
-		fmt.Println(line)
+		fmt.Println(scanner.Text())
 	}
 
 }

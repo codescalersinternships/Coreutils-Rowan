@@ -11,10 +11,10 @@ import (
 )
 
 func main() {
-	var lPtr, wPtr, cPtr bool
-	flag.BoolVar(&lPtr ,"l", false, "number of lines bool")
-	flag.BoolVar(&wPtr ,"w", false, "number of words bool")
-	flag.BoolVar(&cPtr ,"c", false, "number of characters bool")
+	var lFlag, wFlag, cFlag bool
+	flag.BoolVar(&lFlag, "l", false, "number of lines bool")
+	flag.BoolVar(&wFlag, "w", false, "number of words bool")
+	flag.BoolVar(&cFlag, "c", false, "number of characters bool")
 
 	flag.Parse()
 
@@ -56,14 +56,20 @@ func main() {
 		fmt.Println("Scanner is facing some error!")
 		os.Exit(1)
 	}
-	if lPtr {
+	if flag.NFlag() == 0 {
 		fmt.Printf("%d ", l)
-	}
-	if wPtr {
 		fmt.Printf("%d ", w)
-	}
-	if cPtr {
 		fmt.Printf("%d ", c)
+	} else {
+		if lFlag {
+			fmt.Printf("%d ", l)
+		}
+		if wFlag {
+			fmt.Printf("%d ", w)
+		}
+		if cFlag {
+			fmt.Printf("%d ", c)
+		}
 	}
 	fmt.Println(fileName)
 
