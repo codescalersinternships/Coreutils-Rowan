@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"io"
 	"os"
 )
 
@@ -14,7 +13,6 @@ func main() {
 	flag.Parse()
 
 	var fileName string
-	var input io.Reader
 
 	if flag.NFlag() == 0 {
 		fileName = os.Args[1]
@@ -29,9 +27,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	input = file
 
-	scanner := bufio.NewScanner(input)
+	scanner := bufio.NewScanner(file)
 	if lines == -1 {
 		for scanner.Scan() {
 			fmt.Println(scanner.Text())
