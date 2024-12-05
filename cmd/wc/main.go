@@ -1,0 +1,73 @@
+package main
+
+import (
+	"bufio"
+	"flag"
+	"fmt"
+	"os"
+	"strings"
+	"unicode/utf8"
+)
+
+func main() {
+	var lFlag, wFlag, cFlag bool
+	flag.BoolVar(&lFlag, "l", false, "number of lines bool")
+	flag.BoolVar(&wFlag, "w", false, "number of words bool")
+	flag.BoolVar(&cFlag, "c", false, "number of characters bool")
+
+	flag.Parse()
+
+	var fileName string
+	var l int
+	var w int
+	var c int
+
+	idx := flag.NFlag()
+
+	if len(os.Args) == idx+1 {
+		fmt.Println("No file passed")
+		os.Exit(1)
+	}
+
+	fileName = os.Args[idx+1]
+
+	file, err := os.Open(fileName)
+	if err != nil {
+		fmt.Println("Cannot open file!")
+		os.Exit(1)
+	}
+
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		l++
+
+		words := strings.Fields(scanner.Text())
+		w += len(words)
+
+		c += utf8.RuneCountInString(line)
+
+	}
+	if scanner.Err() != nil {
+		fmt.Println("Scanner is facing some error!")
+		os.Exit(1)
+	}
+	if flag.NFlag() == 0 {
+		fmt.Printf("%d ", l)
+		fmt.Printf("%d ", w)
+		fmt.Printf("%d ", c)
+	} else {
+		if lFlag {
+			fmt.Printf("%d ", l)
+		}
+		if wFlag {
+			fmt.Printf("%d ", w)
+		}
+		if cFlag {
+			fmt.Printf("%d ", c)
+		}
+	}
+	fmt.Println(fileName)
+
+}
